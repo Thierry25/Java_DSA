@@ -7,18 +7,18 @@ public interface MyList<E> extends Collection<E> {
     E set(int index, E e);
     int indexOf(Object e);
     int lastIndexOf(E e);
-    
+
     @Override
     default boolean add(E e){
         add(size(), e);
         return true;
     }
-    
+
     @Override
     default boolean isEmpty(){
         return size() == 0;
     }
-    
+
     @Override
     default boolean remove(Object e){
         if(indexOf(e) >= 0){
@@ -57,4 +57,5 @@ public interface MyList<E> extends Collection<E> {
     default boolean retainAll(Collection<?> c) {
         return false;
     }
+
 }

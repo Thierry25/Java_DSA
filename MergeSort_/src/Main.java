@@ -2,14 +2,14 @@ import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
-        int[] arr = {10,9,8,7,6,5,4,3,2,1,0};
+        int[] arr = {10,9,8,7,6,5,4,3,2,1,1,0};
         mergeSort(arr);
         System.out.println(Arrays.toString(arr));
     }
 
-    private static void mergeSort(int[] arr){
+    public static void mergeSort(int[] arr){
         if(arr.length > 1){
-            int[] firstPart = new int[arr.length / 2];
+            int[] firstPart = new int[arr.length / 2]; //{10,9,8,7,6,5}
             System.arraycopy(arr, 0, firstPart, 0, firstPart.length);
             mergeSort(firstPart);
 
@@ -21,24 +21,23 @@ public class Main {
         }
     }
 
-    private static void merge(int[] first, int[] second, int[] temp){
-        int firstIdx = 0, secondIdx = 0, tempIdx = 0;
+    private static void merge(int[] firstPart, int[] secondPart, int[] arr) {
+        int firstIdx = 0, secondIdx = 0, arrIdx = 0;
 
-        while(firstIdx < first.length && secondIdx < second.length){
-            if(first[firstIdx] < second[secondIdx]){
-                temp[tempIdx++] = first[firstIdx++];
+        while(firstIdx < firstPart.length && secondIdx < secondPart.length){
+            if(firstPart[firstIdx] < secondPart[secondIdx]){
+                arr[arrIdx++] = firstPart[firstIdx++];
             }else{
-                temp[tempIdx++] = second[secondIdx++];
+                arr[arrIdx++] = secondPart[secondIdx++];
             }
         }
 
-        while(firstIdx < first.length){
-            temp[tempIdx++] = first[firstIdx++];
+        while(firstIdx < firstPart.length){
+            arr[arrIdx++] = firstPart[firstIdx++];
         }
-
-        while(secondIdx < second.length){
-            temp[tempIdx++] = second[secondIdx++];
-        }
+        while(secondIdx < secondPart.length)
+            arr[arrIdx++] = secondPart[secondIdx++];
     }
+
 }
 

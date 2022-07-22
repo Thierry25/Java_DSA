@@ -1,101 +1,96 @@
 import java.util.Iterator;
-
-public class MyLinkedList<E> implements MyList<E>{
+public class MyLinkedList<E> implements MyList<E> {
     private Node<E> head;
     private Node<E> tail;
     private int size = 0;
 
-    public MyLinkedList(){}
-
-    public MyLinkedList(E[] elements){
-        for(E el: elements) add(el);
+    public MyLinkedList() {
     }
 
-    public void addFirst(E e){
+    public MyLinkedList(E[] elements) {
+        for (E el : elements) add(el);
+    }
+
+    public void addFirst(E e) {
         Node<E> newNode = new Node<>(e);
         newNode.next = head;
         head = newNode;
 
         size++;
-        if(tail == null) tail = head;
+        if (tail == null) tail = head;
     }
 
-    public void addLast(E e){
+    public void addLast(E e) {
         Node<E> newNode = new Node<>(e);
         tail.next = newNode;
         tail = newNode;
 
         size++;
-        if(head == null) head = tail;
+        if (head == null) head = tail;
     }
+
     @Override
     public void add(int index, E e) {
-//        if(index < 0) {
-//        }
-        if(index == 0) addFirst(e);
-        else if(index >= size) addLast(e);
-        else{
+        if (index < 0) return;
+        else if (index == 0) addFirst(e);
+        else if (index >= size) addLast(e);
+        else {
             Node<E> current = head;
-            for(int i = 1; i < index; i++){
+            for (int i = 1; i < index; i++) {
                 current = current.next;
             }
             Node<E> temp = current.next;
-            // Create the new node
             Node<E> newNode = new Node<>(e);
-            newNode.next = temp;
             current.next = newNode;
+            newNode.next = temp;
 
             size++;
         }
     }
 
-    public E removeFirst(){
-        if(size <= 0) return null;
+    public E removeFirst() {
+        if (size == 0) return null;
         Node<E> toRemove = head;
         head = toRemove.next;
         toRemove.next = null;
 
         size--;
-        if(head == null) tail = null;
+        // if(head == null) tail = null;
         return toRemove.element;
     }
 
-    public E removeLast(){
-        if(size <= 0) return null;
-
+    public E removeLast() {
+        if (size == 0) return null;
+        E toRemove = tail.element;
         Node<E> current = head;
-        for(int i = 1; i < size -1; i++){
+        for (int i = 1; i < size - 1; i++) {
             current = current.next;
         }
-        E toRemove = tail.element;
         tail = current;
-        current.next = null;
-
+        tail.next = null;
         size--;
-        //if(tail == null) head = null;
         return toRemove;
     }
 
     @Override
     public E remove(int index) {
-        if(index < 0 || index >= size) return null;
-        if(index == 0) return removeFirst();
-        if(index == size -1) return removeLast();
+        if (index < 0) return null;
+        if (index == 0) return removeFirst();
+        if (index == size - 1) return removeLast();
 
         Node<E> current = head;
-        for(int i = 1; i < index; i++){
+        for (int i = 1; i < index; i++) {
             current = current.next;
         }
         Node<E> toRemove = current.next;
         current.next = toRemove.next;
         toRemove.next = null;
-
         size--;
         return toRemove.element;
     }
 
-    public E getFirst(){
-        if(size < 0) return null;
+    public E getFirst() {
+        if (size < 0) return null;
         return head.element;
     }
 
@@ -108,7 +103,7 @@ public class MyLinkedList<E> implements MyList<E>{
     public E get(int index) {
         if(index < 0) return null;
         if(index == 0) return getFirst();
-        if(index == size -1) return getLast();
+        if(index == size - 1) return getLast();
 
         Node<E> current = head;
         for(int i = 1; i <= index; i++){
@@ -120,6 +115,7 @@ public class MyLinkedList<E> implements MyList<E>{
     @Override
     public E set(int index, E e) {
         if(index < 0) return null;
+
         Node<E> current = head;
         for(int i = 1; i <= index; i++){
             current = current.next;
@@ -165,11 +161,24 @@ public class MyLinkedList<E> implements MyList<E>{
         return false;
     }
 
+
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder("[");
+        Node<E> current = head;
+        for(int i = 0; i < size; i++){
+            //assert current != null;
+            result.append(current.element);
+            current = current.next;
+            result.append(current != null ? ", " : "]");
+        }
+        return result.toString();
+    }
+
     @Override
     public Iterator<E> iterator() {
         return new MyLinkedListIterator();
     }
-
 
     @Override
     public void clear() {
@@ -178,20 +187,8 @@ public class MyLinkedList<E> implements MyList<E>{
         size = 0;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder result = new StringBuilder("[");
-        Node<E> current = head;
-        for(int i = 0; i < size; i++){
-            result.append(current.element);
-            current = current.next;
-            result.append(current != null ? ", ": "]");
-        }
-        return result.toString();
-    }
-
     private class MyLinkedListIterator implements Iterator<E> {
-        private Node<E> current = head;
+        private Node<E> current;
         @Override
         public boolean hasNext() {
             return current != null;
@@ -206,9 +203,8 @@ public class MyLinkedList<E> implements MyList<E>{
     }
 }
 
-/*
-import java.util.Iterator;
 
+/*
 public class MyLinkedList<E> implements MyList<E> {
     private Node<E> head;
     private Node<E> tail;
@@ -414,4 +410,4 @@ public class MyLinkedList<E> implements MyList<E> {
         }
     }
 }
- */
+*/
